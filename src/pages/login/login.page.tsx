@@ -59,7 +59,7 @@ export function Login() {
 				name="email"
 				value={formData.email}
 				onChange={handleInputChange}
-				errors={errors.email}
+				error={errors.email}
 			/>
 
 			<TextField
@@ -67,7 +67,7 @@ export function Login() {
 				name="password"
 				value={formData.password}
 				onChange={handleInputChange}
-				errors={errors.password}
+				error={errors.password}
 			/>
 
 			<RadioField

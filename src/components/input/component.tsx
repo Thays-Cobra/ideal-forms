@@ -7,7 +7,6 @@ export function Input({
 	value,
 	name,
 	onChange,
-	checked,
 	variant = "primary",
 	error = false,
 }: IInputProps) {
@@ -23,7 +22,6 @@ export function Input({
 			name={name}
 			value={value}
 			onChange={handleChange}
-			checked={checked}
 			$variant={variant}
 			$error={error}
 			autoComplete="off"

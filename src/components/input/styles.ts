@@ -26,7 +26,6 @@ export const Input = styled.input<StyledInputProps>`
 			${$error &&
 			css`
 				border-color: ${colors.red};
-				background: ${colors.opaqueRed};
 			`}
 
 			&:focus {
@@ -39,6 +38,11 @@ export const Input = styled.input<StyledInputProps>`
 
 			&:disabled {
 				background-color: ${colors.gray};
+			}
+
+			&:checked {
+				border-color: ${colors[$error ? "red" : "blue"]};
+				accent-color: ${colors[$error ? "red" : "blue"]};
 			}
 		`;
 	}}

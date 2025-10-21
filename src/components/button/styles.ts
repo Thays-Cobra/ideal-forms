@@ -11,20 +11,20 @@ export const Button = styled.button<StyledButtonProps>`
 		const variant = VariantsMap[$variant] || VariantsMap.primary;
 
 		return css`
+			width: auto;
+			height: 80px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+
 			background-color: ${colors[variant.bgColor]};
 
 			//ZdsTextButton
-			display: flex;
-			align-items: center;
-			flex-direction: column;
 			transition: 240ms;
 			cursor: pointer;
-			justify-content: center;
-			width: initial;
-			height: 40px;
-			padding-right: 16px;
-			padding-left: 16px;
-			margin: 7px;
+
+			padding: 0px 16px;
 			border-radius: 8px;
 
 			&:hover {

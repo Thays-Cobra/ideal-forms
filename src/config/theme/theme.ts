@@ -20,7 +20,7 @@ const colors = {
 const fonts = {
 	label100: {
 		fontSize: "12px",
-		fontWeight: "500",
+		fontWeight: "400",
 	},
 	label200: {
 		fontSize: "12px",

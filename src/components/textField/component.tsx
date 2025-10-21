@@ -1,5 +1,6 @@
 import { Input } from "../input";
-import { Text } from "../text/component";
+import { Text } from "../text";
+import { Label } from "../label";
 import type { ITextFieldProps } from "./types";
 
 export function TextField({
@@ -7,14 +8,19 @@ export function TextField({
 	name,
 	onChange,
 	label,
-	errors,
+	error,
 }: ITextFieldProps) {
 	return (
 		<div>
-			<Text as="label">{label}</Text>
-			<Input value={value} name={name} onChange={onChange} />
+			<Label error={Boolean(error)}>{label}</Label>
+			<Input
+				value={value}
+				name={name}
+				onChange={onChange}
+				error={Boolean(error)}
+			/>
 			<Text as="p" color="red">
-				{errors}
+				{error}
 			</Text>
 		</div>
 	);

@@ -17,7 +17,6 @@ export const Text = styled.p<StyledTextProps>`
 			font-size: ${font.fontSize};
 			font-weight: ${font.fontWeight};
 
-			margin: 7px;
 			height: 100%;
 		`;
 	}}

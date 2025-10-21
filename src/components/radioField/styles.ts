@@ -1,11 +1,20 @@
 import styled from "styled-components";
-import type { ThemeColorsType } from "../../config/theme";
 
-export const Radio = styled.input`
-	//${{ theme: { colors } }}
+export const Wrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	row-gap: 8px;
+`;
 
-	input:checked {
-		border: none;
-		outline: 2px solid #ffc0cb;
-	}
+export const ListItems = styled.div`
+	display: flex;
+	align-items: center;
+	column-gap: 12px;
+`;
+
+export const Item = styled.div`
+	width: auto;
+	display: flex;
+	align-items: center;
+	column-gap: 4px;
 `;

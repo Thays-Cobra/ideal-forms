@@ -1,28 +1,33 @@
-import { Input } from "../input";
-import { Text } from "../text";
+import { Radio } from "../radio";
+import { Label } from "../label";
+
 import type { IRadioFieldProps } from "./types";
+import * as S from "./styles";
 
 export function RadioField({
 	label,
 	onChange,
 	value,
 	options,
+	error,
 }: IRadioFieldProps) {
 	return (
-		<div>
-			<Text as="p">{label}</Text>
-			{options.map((option) => (
-				<div key={option.value}>
-					<Input
-						type="radio"
-						value={option.value}
-						name="profile"
-						onChange={onChange}
-						checked={value === option.value}
-					/>
-					<Text as="label">{option.label}</Text>
-				</div>
-			))}
-		</div>
+		<S.Wrapper>
+			<Label error={error}>{label}</Label>
+			<S.ListItems>
+				{options.map((option) => (
+					<S.Item key={option.value}>
+						<Radio
+							value={option.value}
+							name="profile"
+							onChange={onChange}
+							checked={value === option.value}
+							error={error}
+						/>
+						<Label error={error}>{option.label}</Label>
+					</S.Item>
+				))}
+			</S.ListItems>
+		</S.Wrapper>
 	);
 }
