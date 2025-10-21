@@ -12,12 +12,12 @@ export const Button = styled.button<StyledButtonProps>`
 
 		return css`
 			width: auto;
-			height: 80px;
+			height: 30px;
 			display: flex;
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-
+			margin: 10px 0px;
 			background-color: ${colors[variant.bgColor]};
 
 			//ZdsTextButton
@@ -27,15 +27,18 @@ export const Button = styled.button<StyledButtonProps>`
 			padding: 0px 16px;
 			border-radius: 8px;
 
+			.Text {
+				color: ${colors[variant.color]};
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+			}
+
 			&:hover {
 				background-color: ${colors[variant.bgColorHover]};
 			}
 
-			.Text {
-				color: ${colors[variant.color]};
-			}
 			/* padding: 10.5px;
-			margin: 15px 5px;
 			border: none;
 			border-radius: 4px;
 
