@@ -1,5 +1,5 @@
 import type { IInputProps } from "./types";
-
+import { parseClassName } from "../../utils/parseClassName";
 import * as S from "./styles";
 
 export function Input({
@@ -9,6 +9,7 @@ export function Input({
 	onChange,
 	variant = "primary",
 	error = false,
+	className,
 }: IInputProps) {
 	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const { name, value } = event.target;
@@ -17,18 +18,21 @@ export function Input({
 	}
 
 	return (
-		<S.Input
-			type={type}
-			name={name}
-			value={value}
-			onChange={handleChange}
-			$variant={variant}
-			$error={error}
-			autoComplete="off"
-			//disabled = fazer depois que implementar a condicional de erro
-		/>
+		<div data-testid="input">
+			<S.Input
+				className={parseClassName("Input", className)}
+				type={type}
+				name={name}
+				value={value}
+				onChange={handleChange}
+				$variant={variant}
+				$error={error}
+				autoComplete="off"
+				//disabled = fazer depois que implementar a condicional de erro
+			/>
+		</div>
 	);
 }
 
-//prop especial do styled-component, se passar o $, elas não são passadas para o DOM, somente css
+//p$error={error} = rop especial do styled-component, se passar o $, elas não são passadas para o DOM, somente css
 //error={error} = ts

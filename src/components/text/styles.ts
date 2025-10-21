@@ -16,7 +16,6 @@ export const Text = styled.p<StyledTextProps>`
 			color: ${colors[$color]};
 			font-size: ${font.fontSize};
 			font-weight: ${font.fontWeight};
-
 			height: 100%;
 		`;
 	}}

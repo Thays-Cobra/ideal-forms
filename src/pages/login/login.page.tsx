@@ -51,10 +51,16 @@ export function Login() {
 
 	return (
 		<div>
-			<Text as="h1" color="purple" variant="title100">
+			<Text
+				className="LoginTitleText"
+				as="h1"
+				color="purple"
+				variant="title100"
+			>
 				Login
 			</Text>
 			<TextField
+				className="EmailTextField"
 				label="E-mail: "
 				name="email"
 				value={formData.email}
@@ -63,6 +69,7 @@ export function Login() {
 			/>
 
 			<TextField
+				className="PasswordTextField"
 				label="Senha: "
 				name="password"
 				value={formData.password}
@@ -71,6 +78,7 @@ export function Login() {
 			/>
 
 			<RadioField
+				className="ProfileRadioField"
 				options={[
 					{
 						label: "Médico",
@@ -90,7 +98,12 @@ export function Login() {
 				label="Perfil: "
 				onChange={handleInputChange}
 			/>
-			<Button label="Entrar" onClick={handleClick} variant="tertiary" />
+			<Button
+				className="LoginButton"
+				label="Entrar"
+				onClick={handleClick}
+				variant="tertiary"
+			/>
 		</div>
 	);
 }

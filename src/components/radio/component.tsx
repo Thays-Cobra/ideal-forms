@@ -1,5 +1,5 @@
 import type { IRadioProps } from "./types";
-
+import { parseClassName } from "../../utils/parseClassName";
 import * as S from "./styles";
 
 export function Radio({
@@ -9,21 +9,25 @@ export function Radio({
 	checked,
 	error = false,
 	disabled,
+	className,
 }: IRadioProps) {
 	const handleClick = () => {
 		onChange(name, value);
 	};
 
 	return (
-		<S.Wrapper>
+		<S.Wrapper
+			data-testid="radio"
+			className={parseClassName("Radio", className)}
+		>
 			<S.Input
+				className={parseClassName("Input", className)}
 				type="radio"
 				name={name}
 				value={value}
 				checked={checked}
 				autoComplete="off"
 				disabled={disabled}
-				//disabled = fazer depois que implementar a condicional de erro
 			/>
 			<S.FakeUnselected
 				$error={error}
@@ -35,6 +39,3 @@ export function Radio({
 		</S.Wrapper>
 	);
 }
-
-//prop especial do styled-component, se passar o $, elas não são passadas para o DOM, somente css
-//error={error} = ts

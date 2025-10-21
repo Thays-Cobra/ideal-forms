@@ -5,4 +5,5 @@ export interface IButtonProps {
 	label: string;
 	onClick: () => void;
 	variant?: TButtonVariants;
+	className: string;
 }
