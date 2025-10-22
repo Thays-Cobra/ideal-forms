@@ -6,13 +6,16 @@ import { TextField } from "../../components/textField";
 import { RadioField } from "../../components/radioField";
 import { Button } from "../../components/button";
 import { Text } from "../../components/text";
+import { validateEmail, validatePassword } from "../login/utils/index";
+
+import * as S from "./styles";
 
 //paginas = sempre criar div (para componentes grande)
 export function Login() {
 	const navigate = useNavigate();
-	function handleClick() {
+	const handleClick = () => {
 		navigate("/welcome");
-	}
+	};
 	//const location = useLocation();
 	//const params = useParams();
 	//console.log({ location });
@@ -27,6 +30,7 @@ export function Login() {
 		email: "",
 		password: "",
 	});
+
 	const handleInputChange = (name: string, value: string) => {
 		setFormData((prev) => ({
 			...prev,
@@ -35,12 +39,10 @@ export function Login() {
 
 		// Validação imediata no onChange
 		let errorMessage = "";
-		if (value.trim() === "") {
-			if (name === "email") {
-				errorMessage = "O e-mail é obrigatório";
-			} else if (name === "password") {
-				errorMessage = "A senha é obrigatória";
-			}
+		if (name === "email") {
+			errorMessage = validateEmail(value);
+		} else if (name === "password") {
+			errorMessage = validatePassword(value);
 		}
 
 		setErrors((prev) => ({
@@ -50,7 +52,7 @@ export function Login() {
 	};
 
 	return (
-		<div>
+		<S.Wrapper className="LoginPage">
 			<Text
 				className="LoginTitleText"
 				as="h1"
@@ -83,19 +85,22 @@ export function Login() {
 					{
 						label: "Médico",
 						value: "doctor",
+						className: "DoctorRadio",
 					},
 					{
 						label: "Administrador",
 						value: "admin",
+						className: "AdminRadio",
 					},
 					{
 						label: "Paciente",
 						value: "patient",
+						className: "PatientRadio",
 					},
 				]}
 				value={formData.profile}
 				name="profile"
-				label="Perfil: "
+				label="Perfil:"
 				onChange={handleInputChange}
 			/>
 			<Button
@@ -104,6 +109,6 @@ export function Login() {
 				onClick={handleClick}
 				variant="tertiary"
 			/>
-		</div>
+		</S.Wrapper>
 	);
 }
