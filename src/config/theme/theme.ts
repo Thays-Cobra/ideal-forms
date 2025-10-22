@@ -10,25 +10,26 @@ const colors = {
 	opaqueRed: "#FF000033",
 	lightRed: "#FFEAEA",
 	white: "#FFF",
+	ghostWhite: "#f4f6fa",
 	purple: "#70F",
 	green: "#108d7d",
 	waterGreen: "#108d7d",
 	gray: "#d7d8db",
-	almostBlack: "#333",
+	almostBlack: "#1f1f1f",
 };
 
 const fonts = {
 	label100: {
-		fontSize: "12px",
+		fontSize: "14px",
 		fontWeight: "400",
 	},
 	label200: {
-		fontSize: "12px",
+		fontSize: "14px",
 		fontWeight: "600",
 	},
 	title100: {
-		fontSize: "20px",
-		fontWeight: "400",
+		fontSize: "24px",
+		fontWeight: "700",
 	},
 	display100: {
 		fontSize: "88px",

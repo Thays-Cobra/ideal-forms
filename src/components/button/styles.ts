@@ -17,14 +17,11 @@ export const Button = styled.button<StyledButtonProps>`
 			flex-direction: column;
 			align-items: center;
 			justify-content: center;
-			margin: 10px 0px;
+			justify-self: center;
 			background-color: ${colors[variant.bgColor]};
-
-			//ZdsTextButton
 			transition: 240ms;
 			cursor: pointer;
-
-			padding: 0px 16px;
+			padding: 16px 24px;
 			border-radius: 8px;
 
 			.Text {
@@ -32,6 +29,8 @@ export const Button = styled.button<StyledButtonProps>`
 				display: flex;
 				flex-direction: row;
 				align-items: center;
+				//limpando pra não atrapalhar a organização pai-filho
+				padding: 0px;
 			}
 
 			&:hover {

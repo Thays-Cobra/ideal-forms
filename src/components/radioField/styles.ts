@@ -4,6 +4,7 @@ export const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	row-gap: 8px;
+	padding: 12px 0px;
 `;
 
 export const ListItems = styled.div`
