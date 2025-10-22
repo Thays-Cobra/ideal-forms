@@ -3,6 +3,7 @@ import { Text } from "../text";
 import { Label } from "../label";
 import type { ITextFieldProps } from "./types";
 import { parseClassName } from "../../utils/parseClassName";
+import * as S from "./styles";
 
 export function TextField({
 	value,
@@ -13,7 +14,10 @@ export function TextField({
 	className,
 }: ITextFieldProps) {
 	return (
-		<div data-testid="textField">
+		<S.Wrapper
+			data-testid="textField"
+			className={parseClassName("TextField", className)}
+		>
 			<Label
 				className={parseClassName("TextFieldLabel", className)}
 				error={Boolean(error)}
@@ -34,6 +38,6 @@ export function TextField({
 			>
 				{error}
 			</Text>
-		</div>
+		</S.Wrapper>
 	);
 }
