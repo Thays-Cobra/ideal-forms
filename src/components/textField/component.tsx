@@ -31,13 +31,15 @@ export function TextField({
 				onChange={onChange}
 				error={Boolean(error)}
 			/>
-			<Text
-				className={parseClassName("TextFieldLabel", className)}
-				as="p"
-				color="red"
-			>
-				{error}
-			</Text>
+			{error ? (
+				<Text
+					className={parseClassName("TextFieldLabel", className)}
+					as="p"
+					color="red"
+				>
+					{error}
+				</Text>
+			) : null}
 		</S.Wrapper>
 	);
 }
