@@ -61,6 +61,7 @@ export function Login() {
 			>
 				Login
 			</Text>
+			<hr />
 			<TextField
 				className="EmailTextField"
 				label="E-mail: "
@@ -103,6 +104,7 @@ export function Login() {
 				label="Perfil:"
 				onChange={handleInputChange}
 			/>
+			<hr />
 			<Button
 				className="LoginButton"
 				label="Entrar"

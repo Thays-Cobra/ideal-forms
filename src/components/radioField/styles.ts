@@ -4,13 +4,14 @@ export const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;
 	row-gap: 8px;
-	padding: 12px 0px;
+	gap: 10px;
 `;
 
 export const ListItems = styled.div`
 	display: flex;
 	align-items: center;
 	column-gap: 12px;
+	gap: 10px;
 `;
 
 export const Item = styled.div`
@@ -18,4 +19,5 @@ export const Item = styled.div`
 	display: flex;
 	align-items: center;
 	column-gap: 4px;
+	gap: 5px;
 `;
