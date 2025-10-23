@@ -2,7 +2,7 @@ import { ThemeProvider } from "styled-components";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { GlobalStyle } from "./config/theme/global";
 import { Login } from "./pages/login/login.page";
-import { WelcomePage } from "./pages/welcome/welcome.page";
+import { RegisterPage } from "./pages/register/register.page";
 import { theme } from "./config/theme";
 
 function App() {
@@ -15,7 +15,7 @@ function App() {
 					<Route Component={Login} path="/" />
 					{/* <Route Component={Login} path="/:id" />
 					<Route Component={Login} path="/:id/:access" /> */}
-					<Route Component={WelcomePage} path="/welcome" />
+					<Route Component={RegisterPage} path="/register" />
 				</Routes>
 			</BrowserRouter>
 		</ThemeProvider>

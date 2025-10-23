@@ -43,8 +43,7 @@ export function Login() {
 
 	const navigate = useNavigate();
 	const handleClick = () => {
-		//colocar validação do erros
-		navigate("/welcome");
+		navigate("/register");
 	};
 
 	const validateErrors = () => {
