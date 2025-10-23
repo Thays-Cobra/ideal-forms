@@ -15,6 +15,7 @@ const colors = {
 	green: "#108d7d",
 	waterGreen: "#108d7d",
 	gray: "#d7d8db",
+	darkGray: "#838486ff",
 	almostBlack: "#1f1f1f",
 };
 

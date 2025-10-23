@@ -11,18 +11,17 @@ export const Wrapper = styled.div`
 			text-align: justify;
 			display: flex;
 			flex-direction: column;
-			gap: 10px;
+			row-gap: 20px;
 
-			h1 {
+			.LoginTitleText {
 				color: ${colors.darkBlue};
-				padding: 20px 0px;
+				padding: 0px;
 				text-align: center;
 				letter-spacing: 1px;
 			}
 
 			hr {
 				border-color: ${colors.darkBlue};
-				margin: 10px 0px;
 			}
 		`;
 	}}

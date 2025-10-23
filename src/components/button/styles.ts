@@ -37,6 +37,14 @@ export const Button = styled.button<StyledButtonProps>`
 				background-color: ${colors[variant.bgColorHover]};
 			}
 
+			&:disabled {
+				background: ${colors.gray};
+			}
+
+			&:disabled:hover {
+				background: ${colors.darkGray};
+			}
+
 			/* padding: 10.5px;
 			border: none;
 			border-radius: 4px;
@@ -61,13 +69,7 @@ export const Button = styled.button<StyledButtonProps>`
 				background: orange;
 			}
 
-			&:disabled {
-				background: grey;
-			}
-
-			&:disabled:hover {
-				background: brown;
-			} */
+			 */
 		`;
 	}}
 `;
