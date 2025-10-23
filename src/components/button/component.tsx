@@ -9,24 +9,24 @@ export function Button({
 	onClick,
 	variant = "primary",
 	className,
+	...props
 }: IButtonProps) {
 	return (
-		<div data-testid="button">
-			<S.Button
-				className={parseClassName("Button", className)}
-				$variant={variant}
-				type={type}
-				onClick={onClick}
-				disabled
+		<S.Button
+			data-testid="button"
+			className={parseClassName("Button", className)}
+			$variant={variant}
+			type={type}
+			onClick={onClick}
+			{...props}
+		>
+			<Text
+				className={parseClassName("ButtonText", className)}
+				variant="label200"
+				as="label"
 			>
-				<Text
-					className={parseClassName("ButtonText", className)}
-					variant="label200"
-					as="label"
-				>
-					{label}
-				</Text>
-			</S.Button>
-		</div>
+				{label}
+			</Text>
+		</S.Button>
 	);
 }
