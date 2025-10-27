@@ -13,7 +13,8 @@ export const Wrapper = styled.div`
 			flex-direction: column;
 			row-gap: 20px;
 
-			.LoginTitleText {
+			.LoginTitleText,
+			.RegisterTitleText {
 				color: ${colors.darkBlue};
 				padding: 0px;
 				text-align: center;
