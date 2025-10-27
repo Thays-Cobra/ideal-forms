@@ -8,7 +8,7 @@ import {
 	validatePassword,
 } from "../../utils/validateInput";
 
-import * as S from "../styles";
+import { PageLayout } from "../../components/pageLayout/index";
 
 interface IFormState {
 	name: string;
@@ -120,7 +120,7 @@ export function RegisterPage() {
 	};
 
 	return (
-		<S.Wrapper className="RegisterPage">
+		<PageLayout className="RegisterPage">
 			<Text className="RegisterTitleText" as="h1" variant="title100">
 				Formulário de Cadastro
 			</Text>
@@ -160,6 +160,6 @@ export function RegisterPage() {
 				disabled={!isButtonEnabled}
 				onClick={handleClick}
 			/>
-		</S.Wrapper>
+		</PageLayout>
 	);
 }

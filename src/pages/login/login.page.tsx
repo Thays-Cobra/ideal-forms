@@ -11,7 +11,7 @@ import {
 	validatePassword,
 } from "../../utils/validateInput/index";
 
-import * as S from "../styles";
+import { PageLayout } from "../../components/pageLayout/index";
 
 interface IFormState {
 	email: string;
@@ -104,7 +104,7 @@ export function Login() {
 	}, [errors, touches]);
 
 	return (
-		<S.Wrapper className="LoginPage">
+		<PageLayout className="LoginPage">
 			<Text className="LoginTitleText" as="h1" variant="title100">
 				Login
 			</Text>
@@ -162,6 +162,6 @@ export function Login() {
 				variant="tertiary"
 				disabled={!isButtonEnabled}
 			/>
-		</S.Wrapper>
+		</PageLayout>
 	);
 }

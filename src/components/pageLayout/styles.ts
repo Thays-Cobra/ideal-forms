@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const Wrapper = styled.div`
+export const PageLayout = styled.div`
 	${({ theme: { colors } }) => {
 		return css`
 			background-color: ${colors.white};
@@ -13,8 +13,7 @@ export const Wrapper = styled.div`
 			flex-direction: column;
 			row-gap: 20px;
 
-			.LoginTitleText,
-			.RegisterTitleText {
+			h1 {
 				color: ${colors.darkBlue};
 				padding: 0px;
 				text-align: center;
