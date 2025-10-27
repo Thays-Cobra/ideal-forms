@@ -6,9 +6,12 @@ import { TextField } from "../../components/textField";
 import { RadioField } from "../../components/radioField";
 import { Button } from "../../components/button";
 import { Text } from "../../components/text";
-import { validateEmail, validatePassword } from "../login/utils/index";
+import {
+	validateEmail,
+	validatePassword,
+} from "../../utils/validateInput/index";
 
-import * as S from "./styles";
+import * as S from "../styles";
 
 interface IFormState {
 	email: string;
@@ -107,6 +110,7 @@ export function Login() {
 			</Text>
 			<hr />
 			<TextField
+				type="text"
 				className="EmailTextField"
 				label="E-mail: "
 				name="email"
@@ -116,6 +120,7 @@ export function Login() {
 			/>
 
 			<TextField
+				type="password"
 				className="PasswordTextField"
 				label="Senha: "
 				name="password"
@@ -125,6 +130,7 @@ export function Login() {
 			/>
 
 			<RadioField
+				type="radio"
 				className="ProfileRadioField"
 				options={[
 					{
