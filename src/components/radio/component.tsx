@@ -22,7 +22,6 @@ export function Radio({
 		>
 			<S.Input
 				className={parseClassName("Input", className)}
-				type="radio"
 				name={name}
 				value={value}
 				checked={checked}

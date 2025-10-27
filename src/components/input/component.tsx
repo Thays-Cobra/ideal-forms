@@ -3,7 +3,7 @@ import { parseClassName } from "../../utils/parseClassName";
 import * as S from "./styles";
 
 export function Input({
-	type = "text",
+	type,
 	value,
 	name,
 	onChange,
@@ -28,11 +28,10 @@ export function Input({
 				$variant={variant}
 				$error={error}
 				autoComplete="off"
-				//disabled = fazer depois que implementar a condicional de erro
 			/>
 		</div>
 	);
 }
 
-//p$error={error} = rop especial do styled-component, se passar o $, elas não são passadas para o DOM, somente css
+//$error={error} = rop especial do styled-component, se passar o $, elas não são passadas para o DOM, somente css
 //error={error} = ts

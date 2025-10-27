@@ -12,6 +12,7 @@ export function TextField({
 	label,
 	error,
 	className,
+	type,
 }: ITextFieldProps) {
 	return (
 		<S.Wrapper
@@ -25,6 +26,7 @@ export function TextField({
 				{label}
 			</Label>
 			<Input
+				type={type}
 				className={parseClassName("TextFieldInput", className)}
 				value={value}
 				name={name}
