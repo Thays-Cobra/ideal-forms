@@ -133,6 +133,7 @@ export function RegisterPage() {
 				onChange={handleInputChange}
 				value={formData.name}
 				error={errors?.name}
+				placeholder="Digite seu nome..."
 			/>
 			<TextField
 				type="text"
@@ -142,6 +143,7 @@ export function RegisterPage() {
 				onChange={handleInputChange}
 				value={formData.email}
 				error={errors?.email}
+				placeholder="Digite seu e-mail..."
 			/>
 			<TextField
 				className="PasswordTextFiel"
@@ -151,6 +153,7 @@ export function RegisterPage() {
 				onChange={handleInputChange}
 				value={formData.password}
 				error={errors?.password}
+				placeholder="Digite sua senha..."
 			/>
 			<hr />
 			<Button

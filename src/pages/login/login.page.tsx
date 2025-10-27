@@ -117,6 +117,7 @@ export function Login() {
 				value={formData.email}
 				onChange={handleInputChange}
 				error={errors?.email}
+				placeholder="Digite seu e-mail..."
 			/>
 
 			<TextField
@@ -127,6 +128,7 @@ export function Login() {
 				value={formData.password}
 				onChange={handleInputChange}
 				error={errors?.password}
+				placeholder="Digite sua senha..."
 			/>
 
 			<RadioField

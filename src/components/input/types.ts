@@ -10,4 +10,5 @@ export interface IInputProps {
 	variant?: TInputVariants;
 	error?: boolean;
 	className: string;
+	placeholder?: string;
 }

@@ -3,7 +3,6 @@ const colors = {
 	blueZera: "rgb(28, 124, 249)",
 	darkBlue: "rgb(7, 63, 147)",
 	lightBlue: "#a8cbe3ff",
-	black: "#000000",
 	yellow: "#FFFF00",
 	pink: "#FF0080",
 	red: "#F00",
@@ -17,6 +16,8 @@ const colors = {
 	gray: "#d7d8db",
 	darkGray: "#838486ff",
 	almostBlack: "#1f1f1f",
+	black: "#000000",
+	semiTransparentBlack: "#00000059",
 };
 
 const fonts = {

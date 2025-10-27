@@ -33,7 +33,7 @@ export const Input = styled.input<StyledInputProps>`
 			}
 
 			&::placeholder {
-				color: ${colors.gray};
+				color: ${colors.semiTransparentBlack};
 			}
 
 			&:disabled {

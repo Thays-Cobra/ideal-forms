@@ -13,6 +13,7 @@ export function TextField({
 	error,
 	className,
 	type,
+	placeholder,
 }: ITextFieldProps) {
 	return (
 		<S.Wrapper
@@ -32,6 +33,7 @@ export function TextField({
 				name={name}
 				onChange={onChange}
 				error={Boolean(error)}
+				placeholder={placeholder}
 			/>
 			{error ? (
 				<Text

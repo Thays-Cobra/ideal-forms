@@ -10,6 +10,7 @@ export function Input({
 	variant = "primary",
 	error = false,
 	className,
+	placeholder,
 }: IInputProps) {
 	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
 		const { name, value } = event.target;
@@ -28,6 +29,7 @@ export function Input({
 				$variant={variant}
 				$error={error}
 				autoComplete="off"
+				placeholder={placeholder}
 			/>
 		</div>
 	);
