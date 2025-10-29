@@ -7,5 +7,5 @@ export interface ITextProps {
 	as?: "span" | "p" | "div" | "label" | "legend" | "h1";
 	variant?: ThemeFontsType;
 	color?: ThemeColorsType;
-	className: string;
+	className?: string;
 }

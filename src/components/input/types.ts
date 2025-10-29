@@ -9,6 +9,6 @@ export interface IInputProps {
 	onChange: (value: string, name: string) => void;
 	variant?: TInputVariants;
 	error?: boolean;
-	className: string;
+	className?: string;
 	placeholder?: string;
 }

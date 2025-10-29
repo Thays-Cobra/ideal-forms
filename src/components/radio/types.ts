@@ -5,5 +5,5 @@ export interface IRadioProps {
 	checked?: boolean;
 	error?: boolean;
 	disabled?: boolean;
-	className: string;
+	className?: string;
 }

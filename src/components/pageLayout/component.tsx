@@ -5,7 +5,7 @@ import * as S from "./styles";
 
 export function PageLayout({
 	className,
-	as = "wrapper",
+	as = "div",
 	children,
 }: IPageStyleProps) {
 	return (

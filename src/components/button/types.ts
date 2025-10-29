@@ -4,5 +4,5 @@ export interface IButtonProps
 	extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	label: string;
 	variant?: TButtonVariants;
-	className: string;
+	className?: string;
 }

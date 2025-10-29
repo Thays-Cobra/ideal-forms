@@ -8,5 +8,5 @@ export interface IRadioFieldProps extends IInputProps {
 export interface IRadioItem {
 	value: string;
 	label: string;
-	className: string;
+	className?: string;
 }
