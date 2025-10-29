@@ -1,1 +1,2 @@
-export const parseClassName = (...args: string[]) => args.join(" ");
+export const parseClassName = (...args: Array<string | undefined>) =>
+	args.join(" ");
