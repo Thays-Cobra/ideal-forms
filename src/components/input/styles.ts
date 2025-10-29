@@ -48,8 +48,6 @@ export const Input = styled.input<StyledInputProps>`
 	}}
 `;
 
-// aaa
-
 //estilização de erro nas bordas
 /* ${$error &&
 			//template literal
@@ -63,9 +61,4 @@ export const Input = styled.input<StyledInputProps>`
 				outline: none;
 				border-color: ${$error ? colors.lightRed : "#0f7a6c"};
 				box-shadow: 0 0 4px ${$error ? colors.red : "#108d7d"};
-			} */
-
-/* 🔹 Placeholder */
-/* &::placeholder {
-				color: #888;
 			} */
