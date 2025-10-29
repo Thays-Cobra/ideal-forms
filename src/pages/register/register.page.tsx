@@ -3,17 +3,26 @@ import { Text } from "../../components/text/index";
 import { TextField } from "../../components/textField";
 import { Button } from "../../components/button";
 import {
-	validateEmail,
-	validateName,
-	validatePassword,
+	hasMinimumCharacterLength,
+	isEqual,
+	isFormatValid,
+	isRequired,
 } from "../../utils/validateInput";
-
 import { PageLayout } from "../../components/pageLayout/index";
+import { ErrorLangs, PlaceholderLangs, TitleLangs } from "../../langs/index";
+import { Wrapper } from "./styles";
+import { everyWordStartsWithUpperCase } from "../../utils/validateInput/InputValidations";
 
 interface IFormState {
 	name: string;
 	email: string;
 	password: string;
+	confirmationPassword: string;
+}
+
+interface ErrorValidatorItem {
+	validator: (value: any, ...args: any[]) => string | undefined;
+	arguments: any[];
 }
 
 //Record<K, T> cria um objeto cujas chaves são do tipo K e os valores do tipo T
@@ -27,6 +36,7 @@ export function RegisterPage() {
 		name: "",
 		email: "",
 		password: "",
+		confirmationPassword: "",
 	});
 
 	//pega todas as chaves do tipo IFormState (strings) e cada uma terá um valor boolean, e o objeto inicial define que cada campo não foi tocado (false)
@@ -36,12 +46,40 @@ export function RegisterPage() {
 		email: false,
 		name: false,
 		password: false,
+		confirmationPassword: false,
 	});
 
 	//pega todas as chaves do tipo IFormState (strings) e cada uma terá um valor string, e o objeto inicial define prop vazia de mensagens de errors
 	const [errors, setErrors] = useState<
 		Partial<Record<keyof IFormState, string>>
 	>({});
+
+	//ESTUDAR
+	const errorValidator = (
+		key: keyof typeof formData,
+		list: ErrorValidatorItem[]
+	) => {
+		const currentErrors = { ...errors };
+		let hasError = false;
+		list.forEach((item) => {
+			const currentErrorState = currentErrors[key];
+
+			console.log(currentErrorState);
+
+			if (!hasError) {
+				const value = formData[key];
+
+				if (typeof item.validator === "function") {
+					const errorState = item.validator(value, ...item.arguments);
+					currentErrors[key] = errorState;
+					if (errorState) {
+						hasError = true;
+					}
+				}
+			}
+		});
+		return currentErrors;
+	};
 
 	//name as keyof typeof formData = cast para uma chave name válida no formData
 	//cria uma cópia de formData, atualiza a prop name com o novo value e atualiza o estado setFormData; verifica se foi tocado, e se não, o campo name recebe true e atualiza setTouches
@@ -58,24 +96,92 @@ export function RegisterPage() {
 	};
 
 	//percorre todas as chaves do objeto formData (name, email etc); se o campo não foi tocado, pula a validação; valida cada campo com a respectiva função, guarda no currentErrors e atualiza o setErrors
+	//ESTUDAR O NOVO FORMATO
 	const validateErrors = () => {
-		const currentErrors = { ...errors };
+		let currentErrors = { ...errors };
 
 		Object.keys(formData).forEach((key) => {
 			if (!touches[key as keyof typeof touches]) {
 				return;
 			}
 
+			//validar cada palavra com a primeira letra maiúscula, no mínimo 2 palavras, cada palavra com no mínimo 2 letras
 			if (key === "name") {
-				currentErrors[key] = validateName(formData.name);
+				const nameErrorChanges = errorValidator("name", [
+					{
+						validator: isRequired,
+						arguments: [ErrorLangs.name.isRequired],
+					},
+					{
+						validator: everyWordStartsWithUpperCase,
+						arguments: [
+							ErrorLangs.name.isFormatValid.startsWithUpperCaseLetters,
+						],
+					},
+					{
+						validator: isFormatValid,
+						arguments: [
+							ErrorLangs.name.isFormatValid.hasOnlyLetters,
+							/^[A-ZÀ-ÿ]+$/iu,
+						],
+					},
+				]);
+				currentErrors = { ...currentErrors, ...nameErrorChanges };
+
+				// if (!currentErrors[key]) {
+
+				// currentErrors[key] = isFormatValid(
+				// 	formData.name,
+				// 	ErrorLangs.name.isFormatValid.hasMinimumWordsLength,
+				// 	/^\S+(?:\s+\S+)+$/
+				// );
+				// currentErrors[key] = isFormatValid(
+				// 	formData.name,
+				// 	ErrorLangs.name.isFormatValid.hasMinimumLettersLength,
+				// 	/^[A-Za-zÀ-ú]{2,}(?:\s+[A-Za-zÀ-ú]{2,})*$/u
+				// );
 			}
 
 			if (key === "email") {
-				currentErrors[key] = validateEmail(formData.email);
+				currentErrors[key] = isRequired(
+					formData.email,
+					ErrorLangs.email.isRequired
+				);
+				if (!currentErrors[key]) {
+					currentErrors[key] = isFormatValid(
+						formData.email,
+						ErrorLangs.email.isFormatValid,
+						/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+					);
+				}
 			}
 
 			if (key === "password") {
-				currentErrors[key] = validatePassword(formData.password);
+				currentErrors[key] = isRequired(
+					formData.password,
+					ErrorLangs.password.isRequired
+				);
+			}
+
+			if (key === "confirmationPassword") {
+				currentErrors[key] = isRequired(
+					formData.confirmationPassword,
+					ErrorLangs.confirmationPassword.isRequired
+				);
+
+				// if (currentErrors[key]) {
+				// 	currentErrors.password = " ";
+				// }
+				if (!currentErrors[key])
+					currentErrors[key] = isEqual(
+						formData.confirmationPassword,
+						formData.password,
+						ErrorLangs.confirmationPassword.isEqual
+					);
+			}
+
+			if (currentErrors.confirmationPassword && !currentErrors.password) {
+				currentErrors.password = " ";
 			}
 		});
 
@@ -108,21 +214,26 @@ export function RegisterPage() {
 			email: "",
 			name: "",
 			password: "",
+			confirmationPassword: "",
 		});
 
 		setTouches({
 			email: false,
 			name: false,
 			password: false,
+			confirmationPassword: false,
 		});
 
 		setErrors({});
 	};
 
+	//console.log(formData.password);
+	//console.log(formData.confirmationPassword);
+
 	return (
 		<PageLayout className="RegisterPage">
 			<Text className="RegisterTitleText" as="h1" variant="title100">
-				Formulário de Cadastro
+				{TitleLangs.registerPage}
 			</Text>
 			<hr />
 			<TextField
@@ -133,7 +244,7 @@ export function RegisterPage() {
 				onChange={handleInputChange}
 				value={formData.name}
 				error={errors?.name}
-				placeholder="Digite seu nome..."
+				placeholder={PlaceholderLangs.name}
 			/>
 			<TextField
 				type="text"
@@ -143,7 +254,7 @@ export function RegisterPage() {
 				onChange={handleInputChange}
 				value={formData.email}
 				error={errors?.email}
-				placeholder="Digite seu e-mail..."
+				placeholder={PlaceholderLangs.email}
 			/>
 			<TextField
 				className="PasswordTextFiel"
@@ -153,8 +264,84 @@ export function RegisterPage() {
 				onChange={handleInputChange}
 				value={formData.password}
 				error={errors?.password}
-				placeholder="Digite sua senha..."
+				placeholder={PlaceholderLangs.password}
 			/>
+			<Wrapper>
+				<Text
+					color={
+						formData.password
+							? isFormatValid(
+									formData.password,
+									ErrorLangs.password.isFormatValid
+										.hasSpecialCharacter,
+									/[^a-zA-Z0-9\s]/g
+							  )
+								? "red"
+								: "green"
+							: "gray"
+					}
+				>
+					{ErrorLangs.password.isFormatValid.hasSpecialCharacter}
+				</Text>
+				<Text
+					color={
+						formData.password
+							? isFormatValid(
+									formData.password,
+									ErrorLangs.password.isFormatValid.hasNumber,
+									/[0-9]/g
+							  )
+								? "red"
+								: "green"
+							: "gray"
+					}
+				>
+					{ErrorLangs.password.isFormatValid.hasNumber}
+				</Text>
+				<Text
+					color={
+						formData.password
+							? isFormatValid(
+									formData.password,
+									ErrorLangs.password.isFormatValid
+										.hasUpperCaseCharacter,
+									/.*[A-Z].*/g
+							  )
+								? "red"
+								: "green"
+							: "gray"
+					}
+				>
+					{ErrorLangs.password.isFormatValid.hasUpperCaseCharacter}
+				</Text>
+				<Text
+					color={
+						formData.password
+							? hasMinimumCharacterLength(
+									formData.password,
+									ErrorLangs.password.isFormatValid
+										.hasMinimumCharacterLength,
+									8
+							  )
+								? "red"
+								: "green"
+							: "gray"
+					}
+				>
+					{ErrorLangs.password.isFormatValid.hasMinimumCharacterLength}
+				</Text>
+			</Wrapper>
+			<TextField
+				className="PasswordConfirmationTextFiel"
+				label="Confirmar senha:"
+				name="confirmationPassword"
+				type="password"
+				onChange={handleInputChange}
+				value={formData.confirmationPassword}
+				error={errors?.confirmationPassword}
+				placeholder={PlaceholderLangs.confirmationPassword}
+			/>
+
 			<hr />
 			<Button
 				className="CreateAccountButton"

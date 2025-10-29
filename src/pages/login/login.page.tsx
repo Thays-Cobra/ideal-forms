@@ -6,12 +6,14 @@ import { TextField } from "../../components/textField";
 import { RadioField } from "../../components/radioField";
 import { Button } from "../../components/button";
 import { Text } from "../../components/text";
-import {
-	validateEmail,
-	validatePassword,
-} from "../../utils/validateInput/index";
 
 import { PageLayout } from "../../components/pageLayout/index";
+import {
+	hasMinimumCharacterLength,
+	isFormatValid,
+	isRequired,
+} from "../../utils/validateInput/InputValidations";
+import { ErrorLangs, PlaceholderLangs, TitleLangs } from "../../langs/index";
 
 interface IFormState {
 	email: string;
@@ -58,11 +60,42 @@ export function Login() {
 			}
 
 			if (key === "email") {
-				currentErrors[key] = validateEmail(formData.email);
+				currentErrors[key] = isRequired(
+					formData.email,
+					ErrorLangs.email.isRequired
+				);
+				currentErrors[key] = isFormatValid(
+					formData.email,
+					ErrorLangs.email.isFormatValid,
+					/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+				);
 			}
 
 			if (key === "password") {
-				currentErrors[key] = validatePassword(formData.password);
+				currentErrors[key] = isRequired(
+					formData.password,
+					ErrorLangs.password.isRequired
+				);
+				currentErrors[key] = isFormatValid(
+					formData.password,
+					ErrorLangs.password.isFormatValid.hasSpecialCharacter,
+					/[^a-zA-Z0-9\s]/g
+				);
+				currentErrors[key] = isFormatValid(
+					formData.password,
+					ErrorLangs.password.isFormatValid.hasNumber,
+					/[0-9]/g
+				);
+				currentErrors[key] = isFormatValid(
+					formData.password,
+					ErrorLangs.password.isFormatValid.hasUpperCaseCharacter,
+					/.*[A-Z].*/g
+				);
+				currentErrors[key] = hasMinimumCharacterLength(
+					formData.password,
+					ErrorLangs.password.isFormatValid.hasMinimumCharacterLength,
+					8
+				);
 			}
 		});
 
@@ -106,7 +139,7 @@ export function Login() {
 	return (
 		<PageLayout className="LoginPage">
 			<Text className="LoginTitleText" as="h1" variant="title100">
-				Login
+				{TitleLangs.loginPage}
 			</Text>
 			<hr />
 			<TextField
@@ -117,7 +150,7 @@ export function Login() {
 				value={formData.email}
 				onChange={handleInputChange}
 				error={errors?.email}
-				placeholder="Digite seu e-mail..."
+				placeholder={PlaceholderLangs.email}
 			/>
 
 			<TextField
@@ -128,7 +161,7 @@ export function Login() {
 				value={formData.password}
 				onChange={handleInputChange}
 				error={errors?.password}
-				placeholder="Digite sua senha..."
+				placeholder={PlaceholderLangs.password}
 			/>
 
 			<RadioField
