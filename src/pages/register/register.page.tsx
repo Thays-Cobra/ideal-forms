@@ -20,6 +20,8 @@ interface IFormState {
 	confirmationPassword: string;
 }
 
+//validator = função que recebe valor do campo (value) e opcionalmente os argumentos extras (...args); retorna string se tiver erro ou undefined se não tiver
+//arguments = array de parâmetros extras que passa pra o validator
 interface ErrorValidatorItem {
 	validator: (value: any, ...args: any[]) => string | undefined;
 	arguments: any[];
@@ -54,7 +56,8 @@ export function RegisterPage() {
 		Partial<Record<keyof IFormState, string>>
 	>({});
 
-	//ESTUDAR
+	//a função pega um campo específico do tipo formdata (name, email, password etc) e uma lista de validadores (isRequired, everyWordStartsWithUpperCase etc) e atualiza o estado de erros com a mensagem de erro
+	//ele realiza uma cópia de errors e inicia sem erros (hasError = false), mas quando ela fica true, o loop para de checar os outros para não sobrescrever a primeira mensagem; depois, para cada item da list, value recebe a key do formData sendo validada e verifica se o item é uma função, executa o validator e guarda o resultado em currentErrors[key]; se achou o erro (errorState), ele para o looping com hasError = true; retorna o erro em currentErrors
 	const errorValidator = (
 		key: keyof typeof formData,
 		list: ErrorValidatorItem[]
@@ -62,13 +65,8 @@ export function RegisterPage() {
 		const currentErrors = { ...errors };
 		let hasError = false;
 		list.forEach((item) => {
-			const currentErrorState = currentErrors[key];
-
-			console.log(currentErrorState);
-
 			if (!hasError) {
 				const value = formData[key];
-
 				if (typeof item.validator === "function") {
 					const errorState = item.validator(value, ...item.arguments);
 					currentErrors[key] = errorState;

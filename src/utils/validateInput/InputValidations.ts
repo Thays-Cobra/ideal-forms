@@ -41,15 +41,15 @@ export const isEqual = (
 	return undefined;
 };
 
-//ESTUDAR
+//essa função recebe um value e retorna true/false; se o value for inválido, retorna false; senão, ele pega a primeira letra digitada, deixa minúscula, e faz uma comparação se a letra originalmente era minúscula; se sim, retorna false, senão retorna true
 const startsWithUpperCase = (value: string): boolean => {
 	if (!value) return false;
-	const char = value[0];
+	const char = value.trim()[0];
 	const lowerChar = char.toLowerCase();
 	return char !== lowerChar;
 };
 
-//ESTUDAR
+//essa função recebe um value e uma message e retorna uma string ou undefined; se o value for inválido, retorna undefined; senão, ele separa o value em um array de acordo com o " " (espaço) e verifica com a função startsWithUpperCase se cada elemento do array retorna true/false; se for true, ele retorna undefined, se for false retorna message
 export const everyWordStartsWithUpperCase = (
 	value: string,
 	message: string
