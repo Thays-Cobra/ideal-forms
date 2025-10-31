@@ -46,10 +46,13 @@ export function Login() {
 		profile: true,
 	});
 
+	//handleClick para mais de um botão
 	const navigate = useNavigate();
-	const handleClick = () => {
-		navigate("/register");
-	};
+	const handleClick =
+		(path: string): React.MouseEventHandler<HTMLButtonElement> =>
+		() => {
+			navigate(path);
+		};
 
 	const validateErrors = () => {
 		const currentErrors = { ...errors };
@@ -193,10 +196,18 @@ export function Login() {
 			<Button
 				className="LoginButton"
 				label="Entrar"
-				onClick={handleClick}
+				onClick={handleClick("/register")}
 				variant="tertiary"
 				disabled={!isButtonEnabled}
+			/>
+			<Button
+				className="ForgotMyPasswordButton"
+				label="Esqueci minha senha"
+				onClick={handleClick("/forgot-password")}
+				variant="tertiary"
 			/>
 		</PageLayout>
 	);
 }
+
+//trocar botao por link e usar useNavigate() = o onClick vai receber o path, e não o handleClick("path")
