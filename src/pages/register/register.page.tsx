@@ -185,6 +185,13 @@ export function RegisterPage() {
 			if (currentErrors.confirmationPassword && !currentErrors.password) {
 				currentErrors.password = " ";
 			}
+
+			if (
+				!currentErrors.confirmationPassword &&
+				currentErrors.password === " "
+			) {
+				currentErrors.password = undefined;
+			}
 		});
 
 		setErrors(currentErrors);
@@ -284,7 +291,7 @@ export function RegisterPage() {
 							  )
 								? "red"
 								: "green"
-							: "gray"
+							: "darkGray"
 					}
 				>
 					{ErrorLangs.password.isFormatValid.hasSpecialCharacter}
@@ -299,7 +306,7 @@ export function RegisterPage() {
 							  )
 								? "red"
 								: "green"
-							: "gray"
+							: "darkGray"
 					}
 				>
 					{ErrorLangs.password.isFormatValid.hasNumber}
@@ -315,7 +322,7 @@ export function RegisterPage() {
 							  )
 								? "red"
 								: "green"
-							: "gray"
+							: "darkGray"
 					}
 				>
 					{ErrorLangs.password.isFormatValid.hasUpperCaseCharacter}
@@ -331,7 +338,7 @@ export function RegisterPage() {
 							  )
 								? "red"
 								: "green"
-							: "gray"
+							: "darkGray"
 					}
 				>
 					{ErrorLangs.password.isFormatValid.hasMinimumCharacterLength}
