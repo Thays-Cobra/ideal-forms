@@ -58,3 +58,28 @@ export const everyWordStartsWithUpperCase = (
 	const words = value.split(" ");
 	return words.every(startsWithUpperCase) ? undefined : message;
 };
+
+//função para verificar se há um mínimo de letras
+export const hasMinimumLettersLength = (
+	value: string,
+	message: string,
+	minimumLength: number
+): string | undefined => {
+	if (!value) return undefined;
+	const text = value.split(" ");
+	for (const part of text) {
+		if (part.length < minimumLength) return message;
+	}
+	return undefined;
+};
+
+//função para verificar se há um mínimo de palavras
+export const hasMinimumWordsLength = (
+	value: string,
+	message: string,
+	minimumLength: number
+): string | undefined => {
+	if (!value) return undefined;
+	const text = value.split(" ").filter(Boolean);
+	return text.length >= minimumLength ? undefined : message;
+};

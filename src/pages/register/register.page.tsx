@@ -11,7 +11,11 @@ import {
 import { PageLayout } from "../../components/pageLayout/index";
 import { ErrorLangs, PlaceholderLangs, TitleLangs } from "../../langs/index";
 import { Wrapper } from "./styles";
-import { everyWordStartsWithUpperCase } from "../../utils/validateInput/InputValidations";
+import {
+	everyWordStartsWithUpperCase,
+	hasMinimumLettersLength,
+	hasMinimumWordsLength,
+} from "../../utils/validateInput/InputValidations";
 
 interface IFormState {
 	name: string;
@@ -94,7 +98,6 @@ export function RegisterPage() {
 	};
 
 	//percorre todas as chaves do objeto formData (name, email etc); se o campo não foi tocado, pula a validação; valida cada campo com a respectiva função, guarda no currentErrors e atualiza o setErrors
-	//ESTUDAR O NOVO FORMATO
 	const validateErrors = () => {
 		let currentErrors = { ...errors };
 
@@ -120,24 +123,25 @@ export function RegisterPage() {
 						validator: isFormatValid,
 						arguments: [
 							ErrorLangs.name.isFormatValid.hasOnlyLetters,
-							/^[A-ZÀ-ÿ]+$/iu,
+							/^[A-Za-zÀ-ÿ]+(?:\s+[A-Za-zÀ-ÿ]+)*$/u,
+						],
+					},
+					{
+						validator: hasMinimumLettersLength,
+						arguments: [
+							ErrorLangs.name.isFormatValid.hasMinimumLettersLength,
+							2,
+						],
+					},
+					{
+						validator: hasMinimumWordsLength,
+						arguments: [
+							ErrorLangs.name.isFormatValid.hasMinimumWordsLength,
+							2,
 						],
 					},
 				]);
 				currentErrors = { ...currentErrors, ...nameErrorChanges };
-
-				// if (!currentErrors[key]) {
-
-				// currentErrors[key] = isFormatValid(
-				// 	formData.name,
-				// 	ErrorLangs.name.isFormatValid.hasMinimumWordsLength,
-				// 	/^\S+(?:\s+\S+)+$/
-				// );
-				// currentErrors[key] = isFormatValid(
-				// 	formData.name,
-				// 	ErrorLangs.name.isFormatValid.hasMinimumLettersLength,
-				// 	/^[A-Za-zÀ-ú]{2,}(?:\s+[A-Za-zÀ-ú]{2,})*$/u
-				// );
 			}
 
 			if (key === "email") {
@@ -199,6 +203,10 @@ export function RegisterPage() {
 		}
 
 		if (Object.values(errors).some((error) => typeof error === "string")) {
+			console.log(
+				Object.values(errors).some((error) => typeof error === "string")
+			);
+
 			return false;
 		}
 
