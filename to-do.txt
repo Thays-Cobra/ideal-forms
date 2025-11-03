@@ -1,0 +1,9 @@
+03/11/2025
+------------------------------------
+
+- Trocar botao "esqueci minha senha" por link e (no useNavigate(), o onClick vai receber o path, e não o handleClick("path"))
+- react-hook-form e zod
+    + Criar uma pagina de esqueci minha senha, usando os dois
+    + Não usar o textField, criar um input na mão
+    + Campos: e-mail, botão de enviar, link para voltar para o pagina de login
+- Estudar a como colocar ícones com .svg (ver repos, ou no google, no github)
