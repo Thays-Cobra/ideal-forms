@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 //import { useLocation, useParams } from "react-router-dom";
 
 import { TextField } from "../../components/textField";
@@ -196,14 +196,7 @@ export function Login() {
 				variant="tertiary"
 				disabled={!isButtonEnabled}
 			/>
-			<Button
-				className="ForgotMyPasswordButton"
-				label="Esqueci minha senha"
-				onClick={handleClick("/forgot-password")}
-				variant="tertiary"
-			/>
+			<Link to="/forgot-password">Esqueci minha senha</Link>
 		</PageLayout>
 	);
 }
-
-//trocar botao por link e usar useNavigate() = o onClick vai receber o path, e não o handleClick("path")
