@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
-//import { useNavigate, useLocation, useParams } from "react-router-dom";
+//import { useLocation, useParams } from "react-router-dom";
 
 import { TextField } from "../../components/textField";
 import { RadioField } from "../../components/radioField";
@@ -8,11 +8,7 @@ import { Button } from "../../components/button";
 import { Text } from "../../components/text";
 
 import { PageLayout } from "../../components/pageLayout/index";
-import {
-	hasMinimumCharacterLength,
-	isFormatValid,
-	isRequired,
-} from "../../utils/validateInput/InputValidations";
+import { isRequired } from "../../utils/validateInput/InputValidations";
 import { ErrorLangs, PlaceholderLangs, TitleLangs } from "../../langs/index";
 
 interface IFormState {
@@ -67,11 +63,11 @@ export function Login() {
 					formData.email,
 					ErrorLangs.email.isRequired
 				);
-				currentErrors[key] = isFormatValid(
-					formData.email,
-					ErrorLangs.email.isFormatValid,
-					/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-				);
+				// currentErrors[key] = isFormatValid(
+				// 	formData.email,
+				// 	ErrorLangs.email.isFormatValid,
+				// 	/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+				// );
 			}
 
 			if (key === "password") {
@@ -79,26 +75,26 @@ export function Login() {
 					formData.password,
 					ErrorLangs.password.isRequired
 				);
-				currentErrors[key] = isFormatValid(
-					formData.password,
-					ErrorLangs.password.isFormatValid.hasSpecialCharacter,
-					/[^a-zA-Z0-9\s]/g
-				);
-				currentErrors[key] = isFormatValid(
-					formData.password,
-					ErrorLangs.password.isFormatValid.hasNumber,
-					/[0-9]/g
-				);
-				currentErrors[key] = isFormatValid(
-					formData.password,
-					ErrorLangs.password.isFormatValid.hasUpperCaseCharacter,
-					/.*[A-Z].*/g
-				);
-				currentErrors[key] = hasMinimumCharacterLength(
-					formData.password,
-					ErrorLangs.password.isFormatValid.hasMinimumCharacterLength,
-					8
-				);
+				// currentErrors[key] = isFormatValid(
+				// 	formData.password,
+				// 	ErrorLangs.password.isFormatValid.hasSpecialCharacter,
+				// 	/[^a-zA-Z0-9\s]/g
+				// );
+				// currentErrors[key] = isFormatValid(
+				// 	formData.password,
+				// 	ErrorLangs.password.isFormatValid.hasNumber,
+				// 	/[0-9]/g
+				// );
+				// currentErrors[key] = isFormatValid(
+				// 	formData.password,
+				// 	ErrorLangs.password.isFormatValid.hasUpperCaseCharacter,
+				// 	/.*[A-Z].*/g
+				// );
+				// currentErrors[key] = hasMinimumCharacterLength(
+				// 	formData.password,
+				// 	ErrorLangs.password.isFormatValid.hasMinimumCharacterLength,
+				// 	8
+				// );
 			}
 		});
 

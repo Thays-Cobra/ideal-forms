@@ -170,10 +170,6 @@ export function RegisterPage() {
 					formData.confirmationPassword,
 					ErrorLangs.confirmationPassword.isRequired
 				);
-
-				// if (currentErrors[key]) {
-				// 	currentErrors.password = " ";
-				// }
 				if (!currentErrors[key])
 					currentErrors[key] = isEqual(
 						formData.confirmationPassword,
