@@ -23,6 +23,10 @@ export const PageLayout = styled.div`
 			hr {
 				border-color: ${colors.darkBlue};
 			}
+
+			.Link {
+				text-align: center;
+			}
 		`;
 	}}
 `;

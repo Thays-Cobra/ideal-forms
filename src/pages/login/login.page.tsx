@@ -196,7 +196,10 @@ export function Login() {
 				variant="tertiary"
 				disabled={!isButtonEnabled}
 			/>
-			<Link to="/forgot-password">Esqueci minha senha</Link>
+			{/* Link: A progressively enhanced <a href> wrapper to enable navigation with client-side routing.  */}
+			<Link to="/forgot-password" className="Link">
+				Esqueci minha senha
+			</Link>
 		</PageLayout>
 	);
 }
