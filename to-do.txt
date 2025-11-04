@@ -7,3 +7,15 @@
     + Não usar o textField, criar um input na mão
     + Campos: e-mail, botão de enviar, link para voltar para o pagina de login
 - Estudar a como colocar ícones com .svg (ver repos, ou no google, no github)
+
+
+04/11/2025
+------------------------------------
+
+- Ajustar validação de caracteres para no minimo 6 (senha + email)
+- Tirar cor vermelha do Link
+- Ajustar  paginas com hook forms + zod + toastfy
+        + Nos campos de email e senha, deixar validacao esperando os valores "dev@dev.com" e "senha 1234"
+
+EXTRA
+- Estudar a como colocar ícones com .svg (ver repos, ou no google, no github)
