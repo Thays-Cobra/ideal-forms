@@ -5,12 +5,14 @@ import { Login } from "./pages/login/login.page";
 import { RegisterPage } from "./pages/register/register.page";
 import { ForgotPassword } from "./pages/forgotPassword/forgotPassword.page";
 import { theme } from "./config/theme";
+import { ToastContainer } from "react-toastify";
 
 function App() {
 	return (
 		//estudar essa desgraçaaaaaa <></> (fragment)
 		<ThemeProvider theme={theme as any}>
 			<GlobalStyle />
+			<ToastContainer />
 			<BrowserRouter>
 				<Routes>
 					<Route Component={Login} path="/" />
