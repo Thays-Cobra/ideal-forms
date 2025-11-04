@@ -6,13 +6,12 @@ import { Link } from "react-router-dom";
 
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "../../components/button";
+import { toast } from "react-toastify";
 
 //schema de validação do e-mail
 const forgotPasswordSchema = z.object({
-	email: z
-		.string()
-		.min(1, "O e-mail é obrigatório")
-		.email("Formato de e-mail inválido"),
+	email: z.email("Formato de e-mail inválido"),
 });
 
 //dados do form
@@ -24,10 +23,18 @@ export function ForgotPassword() {
 		register,
 		handleSubmit,
 		formState: { errors },
+		setError,
 	} = useForm<FormData>({
 		resolver: zodResolver(forgotPasswordSchema),
 	});
-	const onSubmit: SubmitHandler<FormData> = (data) => console.log(data);
+	const onSubmit: SubmitHandler<FormData> = (data) => {
+		if (data.email !== "dev@dev.com") {
+			return setError("email", {
+				message: "O e-mail precisa ser dev@dev.com",
+			});
+		}
+		toast.success("Sua senha é 1234");
+	};
 
 	return (
 		<PageLayout className="ForgotPasswordPage">
@@ -37,16 +44,26 @@ export function ForgotPassword() {
 			<hr />
 
 			<form onSubmit={handleSubmit(onSubmit)}>
-				<Text>E-mail: </Text>
+				<Text>E-mail:</Text>
 				<input {...register("email")} />
 				{errors.email && (
 					<p style={{ color: "red" }}>{errors.email.message}</p>
 				)}
 				<hr />
-				<input type="submit" value="Enviar" />
+				<Button
+					className="ForgotPasswordButton"
+					label="Enviar"
+					type="submit"
+					variant="tertiary"
+					//onClick={handleClick}
+					//disabled={!isButtonEnabled}
+					//disabled
+				/>
 			</form>
 
-			<Link to="/">Voltar à página de login</Link>
+			<Link to="/" className="Link">
+				Voltar à página de login
+			</Link>
 		</PageLayout>
 	);
 }
