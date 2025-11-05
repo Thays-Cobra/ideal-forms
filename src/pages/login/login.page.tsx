@@ -8,13 +8,22 @@ import { Button } from "../../components/button";
 import { Text } from "../../components/text";
 
 import { PageLayout } from "../../components/pageLayout/index";
-import { isRequired } from "../../utils/validateInput/InputValidations";
+import {
+	hasMinimumLettersLength,
+	isFormatValid,
+	isRequired,
+} from "../../utils/validateInput/InputValidations";
 import { ErrorLangs, PlaceholderLangs, TitleLangs } from "../../langs/index";
 
 interface IFormState {
 	email: string;
 	password: string;
 	profile: string;
+}
+
+interface ErrorValidatorItem {
+	validator: (value: any, ...args: any[]) => string | undefined;
+	arguments: any[];
 }
 
 //paginas = sempre criar div (para componentes grande)
@@ -42,6 +51,27 @@ export function Login() {
 		profile: true,
 	});
 
+	const errorValidator = (
+		key: keyof typeof formData,
+		list: ErrorValidatorItem[]
+	) => {
+		const currentErrors = { ...errors };
+		let hasError = false;
+		list.forEach((item) => {
+			if (!hasError) {
+				const value = formData[key];
+				if (typeof item.validator === "function") {
+					const errorState = item.validator(value, ...item.arguments);
+					currentErrors[key] = errorState;
+					if (errorState) {
+						hasError = true;
+					}
+				}
+			}
+		});
+		return currentErrors;
+	};
+
 	//handleClick para mais de um botão
 	const navigate = useNavigate();
 	const handleClick =
@@ -51,7 +81,7 @@ export function Login() {
 		};
 
 	const validateErrors = () => {
-		const currentErrors = { ...errors };
+		let currentErrors = { ...errors };
 
 		Object.keys(formData).forEach((key) => {
 			if (!touches[key as keyof typeof touches]) {
@@ -59,47 +89,51 @@ export function Login() {
 			}
 
 			if (key === "email") {
-				currentErrors[key] = isRequired(
-					formData.email,
-					ErrorLangs.email.isRequired
-				);
-				// currentErrors[key] = isFormatValid(
-				// 	formData.email,
-				// 	ErrorLangs.email.isFormatValid,
-				// 	/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-				// );
+				const emailErrorChanges = errorValidator("email", [
+					{
+						validator: isRequired,
+						arguments: [ErrorLangs.email.isRequired],
+					},
+					{
+						validator: isFormatValid,
+						arguments: [
+							ErrorLangs.email.isFormatValid.hasValidEmailFormat,
+							/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+						],
+					},
+					{
+						validator: hasMinimumLettersLength,
+						arguments: [
+							ErrorLangs.email.isFormatValid.hasMinimumLettersLength,
+							8,
+						],
+					},
+				]);
+
+				currentErrors = { ...currentErrors, ...emailErrorChanges };
 			}
 
 			if (key === "password") {
-				currentErrors[key] = isRequired(
-					formData.password,
-					ErrorLangs.password.isRequired
-				);
-				// currentErrors[key] = isFormatValid(
-				// 	formData.password,
-				// 	ErrorLangs.password.isFormatValid.hasSpecialCharacter,
-				// 	/[^a-zA-Z0-9\s]/g
-				// );
-				// currentErrors[key] = isFormatValid(
-				// 	formData.password,
-				// 	ErrorLangs.password.isFormatValid.hasNumber,
-				// 	/[0-9]/g
-				// );
-				// currentErrors[key] = isFormatValid(
-				// 	formData.password,
-				// 	ErrorLangs.password.isFormatValid.hasUpperCaseCharacter,
-				// 	/.*[A-Z].*/g
-				// );
-				// currentErrors[key] = hasMinimumCharacterLength(
-				// 	formData.password,
-				// 	ErrorLangs.password.isFormatValid.hasMinimumCharacterLength,
-				// 	8
-				// );
+				const passwordErrorChanges = errorValidator("password", [
+					{
+						validator: isRequired,
+						arguments: [ErrorLangs.password.isRequired],
+					},
+					{
+						validator: hasMinimumLettersLength,
+						arguments: [
+							ErrorLangs.password.isFormatValid
+								.hasMinimumCharacterLength,
+							8,
+						],
+					},
+				]);
+
+				currentErrors = { ...currentErrors, ...passwordErrorChanges };
 			}
 		});
 
 		setErrors(currentErrors);
-
 		return currentErrors;
 	};
 

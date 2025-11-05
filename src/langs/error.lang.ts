@@ -10,7 +10,10 @@ export const ErrorLangs = {
 	},
 	email: {
 		isRequired: "O e-mail é obrigatório",
-		isFormatValid: "Formato de e-mail inválido",
+		isFormatValid: {
+			hasValidEmailFormat: "O formato do e-mail é inválido",
+			hasMinimumLettersLength: "Mínimo de 8 letras",
+		},
 	},
 	password: {
 		isRequired: "A senha é obrigatória",

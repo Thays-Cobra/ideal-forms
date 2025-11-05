@@ -145,31 +145,57 @@ export function RegisterPage() {
 			}
 
 			if (key === "email") {
-				currentErrors[key] = isRequired(
-					formData.email,
-					ErrorLangs.email.isRequired
-				);
-				if (!currentErrors[key]) {
-					currentErrors[key] = isFormatValid(
-						formData.email,
-						ErrorLangs.email.isFormatValid,
-						/^[^\s@]+@[^\s@]+\.[^\s@]+$/
-					);
-				}
+				const emailErrorChanges = errorValidator("email", [
+					{
+						validator: isRequired,
+						arguments: [ErrorLangs.email.isRequired],
+					},
+					{
+						validator: isFormatValid,
+						arguments: [
+							ErrorLangs.email.isFormatValid.hasValidEmailFormat,
+							/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+						],
+					},
+					{
+						validator: hasMinimumLettersLength,
+						arguments: [
+							ErrorLangs.email.isFormatValid.hasMinimumLettersLength,
+							8,
+						],
+					},
+				]);
+
+				currentErrors = { ...currentErrors, ...emailErrorChanges };
 			}
 
 			if (key === "password") {
-				currentErrors[key] = isRequired(
-					formData.password,
-					ErrorLangs.password.isRequired
-				);
+				const passwordErrorChanges = errorValidator("password", [
+					{
+						validator: isRequired,
+						arguments: [ErrorLangs.password.isRequired],
+					},
+				]);
+
+				currentErrors = { ...currentErrors, ...passwordErrorChanges };
 			}
 
 			if (key === "confirmationPassword") {
-				currentErrors[key] = isRequired(
-					formData.confirmationPassword,
-					ErrorLangs.confirmationPassword.isRequired
+				const confirmationPasswordErrorChanges = errorValidator(
+					"confirmationPassword",
+					[
+						{
+							validator: isRequired,
+							arguments: [ErrorLangs.confirmationPassword.isRequired],
+						},
+					]
 				);
+
+				currentErrors = {
+					...currentErrors,
+					...confirmationPasswordErrorChanges,
+				};
+
 				if (!currentErrors[key])
 					currentErrors[key] = isEqual(
 						formData.confirmationPassword,
