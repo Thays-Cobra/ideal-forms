@@ -19,3 +19,71 @@
 
 EXTRA
 - Estudar a como colocar ícones com .svg (ver repos, ou no google, no GitHub)
+
+
+//radio.component com zod e hook forms
+
+import type { IRadioProps } from "./types";
+import { parseClassName } from "../../utils/parseClassName";
+import * as S from "./styles";
+import { forwardRef } from "react";
+
+export const Radio = forwardRef<HTMLInputElement, IRadioProps>(
+	(
+		{
+			value,
+			name,
+			//onChange,
+			checked,
+			error = false,
+			disabled,
+			className,
+		},
+		ref
+	) => {
+		// function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+		// 	if (typeof onChange === "function") onChange(event);
+		// }
+
+		return (
+			<S.Wrapper
+				data-testid="radio"
+				className={parseClassName("Radio", className)}
+			>
+				<S.Input
+					ref={ref}
+					className={parseClassName("Input", className)}
+					name={name}
+					value={value}
+					checked={checked}
+					autoComplete="off"
+					disabled={disabled}
+				/>
+				<S.FakeUnselected
+					ref={ref}
+					$error={error}
+					$checked={checked}
+					//onClick={handleClick}
+				>
+					{checked && <S.FakeSelected $error={error} $checked={checked} />}
+				</S.FakeUnselected>
+			</S.Wrapper>
+		);
+	}
+);
+
+//radio.type com zod e hook forms
+
+import type React from "react";
+
+//PEGAR EXPLICAÇÃO
+export interface IRadioProps {
+	ref?: React.ForwardedRef<HTMLInputElement>;
+	value?: string;
+	name: string;
+	onChange?: React.ChangeEventHandler<HTMLEmbedElement>;
+	checked?: boolean;
+	error?: boolean;
+	disabled?: boolean;
+	className?: string;
+}

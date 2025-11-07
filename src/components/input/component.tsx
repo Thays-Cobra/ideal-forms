@@ -1,39 +1,50 @@
 import type { IInputProps } from "./types";
 import { parseClassName } from "../../utils/parseClassName";
 import * as S from "./styles";
+import { forwardRef } from "react";
 
-export function Input({
-	type,
-	value,
-	name,
-	onChange,
-	variant = "primary",
-	error = false,
-	className,
-	placeholder,
-}: IInputProps) {
-	function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-		const { name, value } = event.target;
-		//o onChange vai receber as props name e value
-		onChange(name, value);
+export const Input = forwardRef<HTMLInputElement, IInputProps>(
+	(
+		{
+			type,
+			value,
+			name,
+			onChange,
+			onBlur,
+			variant = "primary",
+			error = false,
+			className,
+			placeholder,
+		},
+		ref
+	) => {
+		function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+			if (typeof onChange === "function") onChange(event);
+		}
+
+		function handleBlur(event: React.ChangeEvent<HTMLInputElement>) {
+			if (typeof onBlur === "function") onBlur(event);
+		}
+
+		return (
+			<div data-testid="input">
+				<S.Input
+					ref={ref}
+					className={parseClassName("Input", className)}
+					type={type}
+					name={name}
+					value={value}
+					onChange={handleChange}
+					onBlur={handleBlur}
+					$variant={variant}
+					$error={error}
+					autoComplete="off"
+					placeholder={placeholder}
+				/>
+			</div>
+		);
 	}
+);
 
-	return (
-		<div data-testid="input">
-			<S.Input
-				className={parseClassName("Input", className)}
-				type={type}
-				name={name}
-				value={value}
-				onChange={handleChange}
-				$variant={variant}
-				$error={error}
-				autoComplete="off"
-				placeholder={placeholder}
-			/>
-		</div>
-	);
-}
-
-//$error={error} = rop especial do styled-component, se passar o $, elas não são passadas para o DOM, somente css
+//$error={error} = wrop especial do styled-component, se passar o $, elas não são passadas para o DOM, somente css
 //error={error} = ts

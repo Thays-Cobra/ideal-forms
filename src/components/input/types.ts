@@ -1,12 +1,13 @@
 export type TInputVariants = "primary" | "secondary" | "tertiary";
 
-//add propriedades ao componente de input, precisa exportar!
+//PEGAR EXPLICAÇÃO
 export interface IInputProps {
+	ref?: React.ForwardedRef<HTMLInputElement>;
 	type: "text" | "radio" | "password";
-	value: string;
+	value?: string;
 	name: string;
-	//necessário passar também o name, que usa no onChange
-	onChange: (value: string, name: string) => void;
+	onChange?: React.ChangeEventHandler<HTMLInputElement>;
+	onBlur?: React.ChangeEventHandler<HTMLInputElement>;
 	variant?: TInputVariants;
 	error?: boolean;
 	className?: string;
