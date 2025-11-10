@@ -7,12 +7,15 @@ export function useLoginSchema() {
 		email: z
 			.string()
 			.nonempty(ErrorLangs.email.isRequired)
-			.regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "O formato do e-mail é inválido")
-			.min(8, "Mínimo de 8 letras"),
+			.regex(
+				/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+				ErrorLangs.email.isFormatValid.hasValidEmailFormat
+			)
+			.min(8, ErrorLangs.email.isFormatValid.hasMinimumLettersLength),
 		password: z
 			.string()
-			.nonempty("A senha é obrigatório")
-			.min(8, "Mínimo de 8 caracteres"),
+			.nonempty(ErrorLangs.password.isRequired)
+			.min(8, ErrorLangs.password.isFormatValid.hasMinimumCharacterLength),
 		profile: z.string(),
 	});
 	return { loginSchema };
