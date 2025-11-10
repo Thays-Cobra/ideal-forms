@@ -8,7 +8,17 @@ import { forwardRef } from "react";
 
 export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
 	(
-		{ value, name, onChange, label, error, className, type, placeholder },
+		{
+			value,
+			name,
+			onChange,
+			label,
+			error,
+			className,
+			type,
+			placeholder,
+			onBlur,
+		},
 		ref
 	) => {
 		return (
@@ -29,6 +39,7 @@ export const TextField = forwardRef<HTMLInputElement, ITextFieldProps>(
 					value={value}
 					name={name}
 					onChange={onChange}
+					onBlur={onBlur}
 					error={Boolean(error)}
 					placeholder={placeholder}
 				/>

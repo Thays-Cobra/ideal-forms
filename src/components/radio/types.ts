@@ -1,9 +1,8 @@
 export interface IRadioProps {
-	value: string;
-	//value?: string;
+	ref?: React.ForwardedRef<HTMLInputElement>;
+	value?: string;
 	name: string;
-	onChange: (value: string, name: string) => void;
-	//onChange?: React.ChangeEventHandler<HTMLEmbedElement>;
+	onChange?: React.ChangeEventHandler<HTMLInputElement>;
 	checked?: boolean;
 	error?: boolean;
 	disabled?: boolean;

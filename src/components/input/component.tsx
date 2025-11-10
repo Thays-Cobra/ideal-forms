@@ -19,11 +19,11 @@ export const Input = forwardRef<HTMLInputElement, IInputProps>(
 		ref
 	) => {
 		function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
-			if (typeof onChange === "function") onChange(event);
+			if (onChange) onChange(event);
 		}
 
 		function handleBlur(event: React.ChangeEvent<HTMLInputElement>) {
-			if (typeof onBlur === "function") onBlur(event);
+			if (onBlur) onBlur(event);
 		}
 
 		return (
