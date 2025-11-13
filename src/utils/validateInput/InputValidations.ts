@@ -41,45 +41,25 @@ export const isEqual = (
 	return undefined;
 };
 
-//essa função recebe um value e retorna true/false; se o value for inválido, retorna false; senão, ele pega a primeira letra digitada, deixa minúscula, e faz uma comparação se a letra originalmente era minúscula; se sim, retorna false, senão retorna true
-const startsWithUpperCase = (value: string): boolean => {
+export const everyWordStartsWithUpperCase = (value: string) => {
 	if (!value) return false;
-	const char = value.trim()[0];
-	const lowerChar = char.toLowerCase();
-	return char !== lowerChar;
-};
-
-//essa função recebe um value e uma message e retorna uma string ou undefined; se o value for inválido, retorna undefined; senão, ele separa o value em um array de acordo com o " " (espaço) e verifica com a função startsWithUpperCase se cada elemento do array retorna true/false; se for true, ele retorna undefined, se for false retorna message
-export const everyWordStartsWithUpperCase = (
-	value: string,
-	message: string
-): string | undefined => {
-	if (!value) return undefined;
-	const words = value.split(" ");
-	return words.every(startsWithUpperCase) ? undefined : message;
+	const words = value.trim().split(/\s+/);
+	return words.every((word) => {
+		const firstChar = word[0];
+		return firstChar === firstChar.toUpperCase();
+	});
 };
 
 //função para verificar se há um mínimo de letras
-export const hasMinimumLettersLength = (
-	value: string,
-	message: string,
-	minimumLength: number
-): string | undefined => {
-	if (!value) return undefined;
+export const hasMinimumLettersLength = (min: number) => (value: string) => {
+	if (!value) return true;
 	const text = value.split(" ");
 	for (const part of text) {
-		if (part.length < minimumLength) return message;
+		if (part.length < min) return false;
 	}
-	return undefined;
+	return true;
 };
 
 //função para verificar se há um mínimo de palavras
-export const hasMinimumWordsLength = (
-	value: string,
-	message: string,
-	minimumLength: number
-): string | undefined => {
-	if (!value) return undefined;
-	const text = value.split(" ").filter(Boolean);
-	return text.length >= minimumLength ? undefined : message;
-};
+export const hasMinimumWordsLength = (min: number) => (value: string) =>
+	value.trim().split(/\s+/).filter(Boolean).length >= min;
