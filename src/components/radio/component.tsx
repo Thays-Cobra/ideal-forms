@@ -9,8 +9,22 @@ export const Radio = forwardRef<HTMLInputElement, IRadioProps>(
 		ref
 	) => {
 		function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+			console.log("aaaa");
 			if (onChange) onChange(event);
 		}
+
+		const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+			if (typeof onChange === "function") {
+				onChange({
+					...event,
+					target: {
+						...event.target,
+						name,
+						value,
+					},
+				} as any);
+			}
+		};
 
 		return (
 			<S.Wrapper
@@ -27,7 +41,11 @@ export const Radio = forwardRef<HTMLInputElement, IRadioProps>(
 					disabled={disabled}
 					onChange={handleChange}
 				/>
-				<S.FakeUnselected $error={error} $checked={checked}>
+				<S.FakeUnselected
+					$error={error}
+					$checked={checked}
+					onClick={handleClick}
+				>
 					{checked && <S.FakeSelected $error={error} $checked={checked} />}
 				</S.FakeUnselected>
 			</S.Wrapper>
