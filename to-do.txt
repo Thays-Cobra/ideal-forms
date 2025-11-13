@@ -15,7 +15,37 @@
 - Ajustar validação de caracteres para no mínimo 8 (senha + email) (ok)
 - Tirar cor vermelha do Link (ok)
 - Ajustar  paginas com hook forms + zod + toastfy
-        + Nos campos de email e senha, deixar validação esperando os valores "dev@dev.com" e "senha1234"
+        + Nos campos de email e senha, deixar validação esperando os valores "dev@dev.com" e "senha1234" (login e esqueci minha senha ok)
 
 EXTRA
 - Estudar a como colocar ícones com .svg (ver repos, ou no google, no GitHub)
+
+
+13/11/2025
+------------------------------------
+
+[FRONT]
+- Ajustar o css do formulário (ok)
+- Ajustar a página de cadastro para receber o hook forms + zod + toastfy
+
+[BACK]
+- PBI
+criar os módulos de usuário e de perfil
+ 
+primeiro estrutura, depois faz funcionar, depois melhora
+ 
+obs: nem todos os módulos possuem controller e entidade
+ 
+MER
+Profile
+id - uuid
+name - string
+ 
+User
+id - uuid
+name - string
+email - string
+password - string
+profiles: Profile[]
+ 
+Após isso, e somente no final, testar o typeorm e tentar criar 1 repositório
