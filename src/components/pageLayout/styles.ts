@@ -24,6 +24,12 @@ export const PageLayout = styled.div`
 				border-color: ${colors.darkBlue};
 			}
 
+			form {
+				display: flex;
+				flex-direction: column;
+				row-gap: 12px;
+			}
+
 			.Link {
 				text-align: center;
 			}
