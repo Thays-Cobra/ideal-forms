@@ -1,173 +1,74 @@
-import { useState, useEffect, useMemo } from "react";
-import { useNavigate, Link } from "react-router-dom";
-//import { useLocation, useParams } from "react-router-dom";
+import * as z from "zod";
 
+import { PageLayout } from "../../components/pageLayout";
+import { Text } from "../../components/text";
+import { PlaceholderLangs, TitleLangs } from "../../langs";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "../../components/button";
+import { Link, useNavigate } from "react-router-dom";
+import { useLoginSchema } from "./hooks/schema.hook";
 import { TextField } from "../../components/textField";
 import { RadioField } from "../../components/radioField";
-import { Button } from "../../components/button";
-import { Text } from "../../components/text";
+import { Slide, toast } from "react-toastify";
 
-import { PageLayout } from "../../components/pageLayout/index";
-import {
-	hasMinimumLettersLength,
-	isFormatValid,
-	isRequired,
-} from "../../utils/validateInput/InputValidations";
-import { ErrorLangs, PlaceholderLangs, TitleLangs } from "../../langs/index";
+//dados do form
+type FormData = z.infer<ReturnType<typeof useLoginSchema>["loginSchema"]>;
 
-interface IFormState {
-	email: string;
-	password: string;
-	profile: string;
-}
-
-interface ErrorValidatorItem {
-	validator: (value: any, ...args: any[]) => string | undefined;
-	arguments: any[];
-}
-
-//paginas = sempre criar div (para componentes grande)
 export function Login() {
-	//const location = useLocation();
-	//const params = useParams();
-	//console.log({ location });
-	//console.log({ params });
+	//usando o schema de validação dos campos utilizados
+	const { loginSchema } = useLoginSchema();
 
-	const [formData, setFormData] = useState<IFormState>({
-		email: "",
-		password: "",
-		profile: "doctor",
-	});
-
-	const [errors, setErrors] = useState<
-		Partial<Record<keyof IFormState, string>>
-	>({});
-
-	const [touches, setTouches] = useState<
-		Record<keyof IFormState & string, boolean>
-	>({
-		email: false,
-		password: false,
-		profile: true,
-	});
-
-	const errorValidator = (
-		key: keyof typeof formData,
-		list: ErrorValidatorItem[]
-	) => {
-		const currentErrors = { ...errors };
-		let hasError = false;
-		list.forEach((item) => {
-			if (!hasError) {
-				const value = formData[key];
-				if (typeof item.validator === "function") {
-					const errorState = item.validator(value, ...item.arguments);
-					currentErrors[key] = errorState;
-					if (errorState) {
-						hasError = true;
-					}
-				}
-			}
-		});
-		return currentErrors;
-	};
-
-	//handleClick para mais de um botão
+	//useNavigate() para transitar entre as rotas
 	const navigate = useNavigate();
-	const handleClick =
-		(path: string): React.MouseEventHandler<HTMLButtonElement> =>
-		() => {
-			navigate(path);
+
+	//chamando as props do hook forms que serão utilizados e o resolver para conectar o HF e o Zod
+	const {
+		register,
+		watch,
+		handleSubmit,
+		setError,
+		formState: {
+			errors, //mensagens automáticas de erro
+			isValid, //indica se o formulário é válido
+		},
+	} = useForm<FormData>({
+		resolver: zodResolver(loginSchema), //conecta o zod
+		mode: "onBlur", //valida ao "deixar de tocar" o campo
+	});
+
+	const registerFieldWithValue = (name: string, args?: any) => {
+		const registered = register(name as any, args);
+
+		const watched = watch(name as any);
+		const value = watched ? String(watched) : undefined;
+
+		return {
+			...registered,
+			value,
 		};
+	};
 
-	const validateErrors = () => {
-		let currentErrors = { ...errors };
+	//implementação do onSubmit para submeter os campos do formulário
+	const onSubmit: SubmitHandler<FormData> = (data) => {
+		if (data.email !== "dev@dev.com") {
+			return setError("email", {
+				message: "O e-mail precisa ser dev@dev.com",
+			});
+		}
 
-		Object.keys(formData).forEach((key) => {
-			if (!touches[key as keyof typeof touches]) {
-				return;
-			}
+		if (data.password !== "senha1234") {
+			return setError("password", {
+				message: "A senha precisa ser senha1234",
+			});
+		}
 
-			if (key === "email") {
-				const emailErrorChanges = errorValidator("email", [
-					{
-						validator: isRequired,
-						arguments: [ErrorLangs.email.isRequired],
-					},
-					{
-						validator: isFormatValid,
-						arguments: [
-							ErrorLangs.email.isFormatValid.hasValidEmailFormat,
-							/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-						],
-					},
-					{
-						validator: hasMinimumLettersLength,
-						arguments: [
-							ErrorLangs.email.isFormatValid.hasMinimumLettersLength,
-							8,
-						],
-					},
-				]);
-
-				currentErrors = { ...currentErrors, ...emailErrorChanges };
-			}
-
-			if (key === "password") {
-				const passwordErrorChanges = errorValidator("password", [
-					{
-						validator: isRequired,
-						arguments: [ErrorLangs.password.isRequired],
-					},
-					{
-						validator: hasMinimumLettersLength,
-						arguments: [
-							ErrorLangs.password.isFormatValid
-								.hasMinimumCharacterLength,
-							8,
-						],
-					},
-				]);
-
-				currentErrors = { ...currentErrors, ...passwordErrorChanges };
-			}
+		toast.success("Login realizado com sucesso!", {
+			autoClose: 2000,
+			transition: Slide,
 		});
-
-		setErrors(currentErrors);
-		return currentErrors;
+		navigate("/register");
 	};
-
-	useEffect(() => {
-		validateErrors();
-	}, [formData]);
-
-	const handleInputChange = (name: string, value: string) => {
-		const current = { ...formData };
-
-		current[name as keyof typeof formData] = value;
-
-		setFormData(current);
-
-		if (!touches[name as keyof typeof touches]) {
-			const currentTouches = { ...touches };
-
-			currentTouches[name as keyof typeof touches] = true;
-
-			setTouches(currentTouches);
-		}
-	};
-
-	const isButtonEnabled = useMemo<boolean>(() => {
-		if (Object.values(touches).some((touch) => touch === false)) {
-			return false;
-		}
-
-		if (Object.values(errors).some((error) => typeof error === "string")) {
-			return false;
-		}
-
-		return true;
-	}, [errors, touches]);
 
 	return (
 		<PageLayout className="LoginPage">
@@ -175,62 +76,55 @@ export function Login() {
 				{TitleLangs.loginPage}
 			</Text>
 			<hr />
-			<TextField
-				type="text"
-				className="EmailTextField"
-				label="E-mail: "
-				name="email"
-				value={formData.email}
-				onChange={handleInputChange}
-				error={errors?.email}
-				placeholder={PlaceholderLangs.email}
-			/>
-
-			<TextField
-				type="password"
-				className="PasswordTextField"
-				label="Senha: "
-				name="password"
-				value={formData.password}
-				onChange={handleInputChange}
-				error={errors?.password}
-				placeholder={PlaceholderLangs.password}
-			/>
-
-			<RadioField
-				type="radio"
-				className="ProfileRadioField"
-				options={[
-					{
-						label: "Médico",
-						value: "doctor",
-						className: "DoctorRadio",
-					},
-					{
-						label: "Administrador",
-						value: "admin",
-						className: "AdminRadio",
-					},
-					{
-						label: "Paciente",
-						value: "patient",
-						className: "PatientRadio",
-					},
-				]}
-				value={formData.profile}
-				name="profile"
-				label="Perfil:"
-				onChange={handleInputChange}
-			/>
-			<hr />
-			<Button
-				className="LoginButton"
-				label="Entrar"
-				onClick={handleClick("/register")}
-				variant="tertiary"
-				disabled={!isButtonEnabled}
-			/>
-			{/* Link: A progressively enhanced <a href> wrapper to enable navigation with client-side routing.  */}
+			<form onSubmit={handleSubmit(onSubmit)}>
+				<TextField
+					label="E-mail:"
+					type="text"
+					className="EmailTextField"
+					{...register("email")}
+					error={errors.email?.message}
+					placeholder={PlaceholderLangs.email}
+				/>
+				<TextField
+					label="Senha:"
+					type="password"
+					className="PasswordTextField"
+					{...register("password")}
+					error={errors.password?.message}
+					placeholder={PlaceholderLangs.password}
+				/>
+				<RadioField
+					type="radio"
+					label="Perfil:"
+					className="ProfileRadioField"
+					options={[
+						{
+							label: "Médico",
+							value: "doctor",
+							className: "DoctorRadio",
+						},
+						{
+							label: "Administrador",
+							value: "admin",
+							className: "AdminRadio",
+						},
+						{
+							label: "Paciente",
+							value: "patient",
+							className: "PatientRadio",
+						},
+					]}
+					{...registerFieldWithValue("profile")}
+				/>
+				<hr />
+				<Button
+					className="LoginButton"
+					label="Entrar"
+					type="submit"
+					variant="tertiary"
+					disabled={!isValid}
+				/>
+			</form>
 			<Link to="/forgot-password" className="Link">
 				Esqueci minha senha
 			</Link>
