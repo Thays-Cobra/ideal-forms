@@ -6,6 +6,7 @@ export function useLoginSchema() {
 	const loginSchema = z.object({
 		email: z
 			.string()
+			.trim()
 			.nonempty(ErrorLangs.email.isRequired)
 			.regex(
 				/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
@@ -14,6 +15,7 @@ export function useLoginSchema() {
 			.min(8, ErrorLangs.email.isFormatValid.hasMinimumLettersLength),
 		password: z
 			.string()
+			.trim()
 			.nonempty(ErrorLangs.password.isRequired)
 			.min(8, ErrorLangs.password.isFormatValid.hasMinimumCharacterLength),
 		profile: z.string(),

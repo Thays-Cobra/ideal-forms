@@ -5,6 +5,7 @@ export function useForgotPasswordSchema() {
 	const forgotPasswordSchema = z.object({
 		email: z
 			.string()
+			.trim()
 			.nonempty(ErrorLangs.email.isRequired)
 			.regex(
 				/^[^\s@]+@[^\s@]+\.[^\s@]+$/,
