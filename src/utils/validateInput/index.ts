@@ -1,1 +1,1 @@
-export * from "./InputValidations";
+export * from "./inputValidations";
