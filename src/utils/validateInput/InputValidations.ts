@@ -1,24 +1,7 @@
-export const isFormatValid = (
-	value: string,
-	message: string,
-	regex: RegExp
-): string | undefined => {
-	if (!regex.test(value.trim())) {
-		return message;
-	}
-	return undefined;
-};
+export const isFormatValid = (value: string, regex: RegExp) =>
+	regex.test(value.trim());
 
-export const hasMinimumCharacterLength = (
-	value: string,
-	message: string,
-	minimumLength: number
-): string | undefined => {
-	if (value.length < minimumLength) {
-		return message;
-	}
-	return undefined;
-};
+export const hasMinLength = (min: number, value: string) => value.length >= min;
 
 export const isRequired = (
 	value: string,

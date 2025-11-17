@@ -4,6 +4,8 @@ import {
 	hasMinimumLettersLength,
 	hasMinimumWordsLength,
 	everyWordStartsWithUpperCase,
+	hasMinLength,
+	isFormatValid,
 } from "../../../utils/validateInput";
 
 export function useRegisterSchema() {
@@ -22,10 +24,18 @@ export function useRegisterSchema() {
 				.string()
 				.trim()
 				.nonempty(ErrorLangs.password.isRequired)
-				.min(
-					8,
-					ErrorLangs.password.isFormatValid.hasMinimumCharacterLength
-				),
+				.refine((value) => {
+					return isFormatValid(value, /[^a-zA-Z0-9\s]/g);
+				}, ErrorLangs.password.isFormatValid.hasSpecialCharacter)
+				.refine((value) => {
+					return isFormatValid(value, /[0-9]/g);
+				}, ErrorLangs.password.isFormatValid.hasNumber)
+				.refine((value) => {
+					return isFormatValid(value, /.*[A-Z].*/g);
+				}, ErrorLangs.password.isFormatValid.hasUpperCaseCharacter)
+				.refine((value) => {
+					return hasMinLength(8, value);
+				}, ErrorLangs.password.isFormatValid.hasMinimumCharacterLength),
 			name: z
 				.string()
 				.trim()
